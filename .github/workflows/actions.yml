@@ -21,4 +21,8 @@ jobs:
           pip install -r requirements.txt
 
       - name: execute scripts
-        run: python app.py
+        run: |
+          find . -type f -name "*.py" | while read -r file; do
+            echo "Running $file"
+            python $file
+          done
