@@ -14,7 +14,7 @@ def load_env() -> dict:
     if os.path.isfile(".env"):
         return dotenv_values(".env")
     # gh actions
-    return {"PGUSER": os.environ.get("PGUSER"), "PGPASSWORD": os.environ.get("PGPASSWORD")} 
+    return {"PGUSER": os.environ.get("PG_USER"), "PGPASSWORD": os.environ.get("PG_PASSWORD")} 
 
 def ingest():
 
