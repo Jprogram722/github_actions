@@ -98,6 +98,7 @@ def ingest():
     df["insert_time"] = datetime.now(tz=ZoneInfo("UTC")).strftime("%Y-%m-%d %H:%M:%S")
     print("inserting into database")
     df.to_sql(name=table_name, con=create_engine(pg_conn_str), if_exists="delete_rows", index=False, method="multi")
+    print("DONE!!!!!")
 
 
 if __name__ == "__main__":
