@@ -5,15 +5,23 @@ on: [push]
 jobs:
   build:
     runs-on: ubuntu-latest
+    container: python:3.14.3-trixie
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_PASSWORD: ${{ secrets.PGPASSWORD }}
+          POSTGRES_DB: env_can
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
     steps:
       - name: checkout
         uses: actions/checkout@v5
-
-      - name: set up python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.14"
 
       - name: install python packages
         run: |
@@ -21,6 +29,9 @@ jobs:
           pip install -r requirements.txt
 
       - name: execute scripts
+        env:
+          PG_USER: ${{ secrets.PGUSER }}
+          PG_PASSWORD: ${{ secrets.PGPASSWORD }}
         run: |
           find . -type f -name "*.py" | while read -r file; do
             echo "Running $file"

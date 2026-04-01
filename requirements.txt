@@ -1,2 +1,5 @@
 pandas
 httpx
+psycopg2
+SQLAlchemy
+python-dotenv
